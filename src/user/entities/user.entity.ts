@@ -3,10 +3,7 @@ import { ObjectType, Field } from '@nestjs/graphql';
 @ObjectType()
 export class User {
   @Field((type) => String)
-  firstName: string;
-
-  @Field((type) => String)
-  lastName: string;
+  fullName: string;
 
   @Field((type) => String)
   email: string;
