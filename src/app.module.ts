@@ -12,11 +12,11 @@ import { join } from 'path';
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
       playground: false,
-      path: 'api',
+      path: '/api',
       introspection: true,
       sortSchema: true,
       plugins: [ApolloServerPluginLandingPageLocalDefault()],
-      autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
+      autoSchemaFile: join(process.cwd(), 'schema.gql'),
       buildSchemaOptions: {
         dateScalarMode: 'timestamp',
       },
