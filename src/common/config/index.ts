@@ -10,8 +10,17 @@ export const configSchema = Joi.object<IConfig, true>({
   PORT: Joi.number().required(),
 });
 
+const { error, value: validatedEnv } = configSchema.validate(process.env, {
+  allowUnknown: true,
+  abortEarly: false,
+});
+
+if (error) {
+  throw new Error(`Config validation error ${error.message}`);
+}
+
 export const config: IConfig = {
-  JWT_SECRET_KEY: String(process.env.JWT_SECRET_KEY),
-  MONGO_DB_URL: String(process.env.MONGO_DB_URL),
-  PORT: Number(process.env.PORT),
+  JWT_SECRET_KEY: String(validatedEnv.JWT_SECRET_KEY),
+  MONGO_DB_URL: String(validatedEnv.MONGO_DB_URL),
+  PORT: Number(validatedEnv.PORT),
 };

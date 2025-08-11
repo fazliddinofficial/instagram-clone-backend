@@ -5,10 +5,11 @@ import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin/landingPage/default';
 import { join } from 'path';
+import { config } from './common';
 
 @Module({
   imports: [
-    MongooseModule.forRoot('mongodb://localhost:27017/instagram'),
+    MongooseModule.forRoot(config.MONGO_DB_URL),
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
       playground: false,
