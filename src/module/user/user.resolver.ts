@@ -29,7 +29,7 @@ export class UserResolver {
   }
 
   @Mutation(() => User)
-  removeUser(@Args('id', { type: () => Int }) id: number) {
-    return this.userService.remove(id);
+  removeUser(@Args('userId') userId: string) {
+    return this.userService.remove(userId);
   }
 }

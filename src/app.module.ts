@@ -1,11 +1,12 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { UserModule } from './user/user.module';
+import { UserModule } from './module/user/user.module';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin/landingPage/default';
 import { join } from 'path';
 import { config } from './common';
+import { AuthModule } from './module/auth/auth.module';
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { config } from './common';
       },
     }),
     UserModule,
+    AuthModule,
   ],
   controllers: [],
   providers: [],

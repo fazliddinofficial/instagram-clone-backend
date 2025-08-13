@@ -9,8 +9,8 @@ import { Model } from 'mongoose';
 export class UserService {
   constructor(@InjectModel(User.name) private userModel: Model<User>) {}
   async create(createUserInput: CreateUserInput) {
-    console.log(createUserInput)
-    return await this.userModel.create(createUserInput)
+    console.log(createUserInput);
+    return await this.userModel.create(createUserInput);
   }
 
   findAll() {
@@ -25,7 +25,7 @@ export class UserService {
     return `This action updates a #${id} user`;
   }
 
-  remove(id: number) {
+  remove(id: string) {
     return `This action removes a #${id} user`;
   }
 }
