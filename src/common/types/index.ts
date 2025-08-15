@@ -6,4 +6,4 @@ export interface IConfig {
   PORT: number;
 }
 
-export type ID = Types.ObjectId;
+export type mongoID = Types.ObjectId;

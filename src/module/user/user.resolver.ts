@@ -1,10 +1,10 @@
-import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
+import { Resolver, Query, Mutation, Args, ID } from '@nestjs/graphql';
 import { UserService } from './user.service';
 import { User } from './entities/user.entity';
 import { CreateUserInput } from './dto/create-user.input';
 import { UpdateUserInput } from './dto/update-user.input';
 import { CONTROLLERS_NAMES } from 'src/common/constants';
-import { ID } from '@common';
+import { mongoID } from '@common';
 
 @Resolver(() => User)
 export class UserResolver {
@@ -22,10 +22,12 @@ export class UserResolver {
     return this.userService.getAllDocuments();
   }
 
-  // @Query(() => User)
-  // [CONTROLLERS_NAMES.getUsersById](@Args('id') id: ID) {
-  //   return this.userService.getDocumentById(id);
-  // }
+  @Query(() => User)
+  [CONTROLLERS_NAMES.getUsersById](
+    @Args('id', { type: () => ID }) id: mongoID,
+  ) {
+    return this.userService.getDocumentById(id);
+  }
 
   @Mutation(() => User)
   [CONTROLLERS_NAMES.updateUserById](
@@ -34,8 +36,10 @@ export class UserResolver {
     return this.userService.update(updateUserInput.id, updateUserInput);
   }
 
-  // @Mutation(() => User)
-  // [CONTROLLERS_NAMES.deleteUserById](@Args('userId') userId: ID) {
-  //   return this.userService.delete(userId);
-  // }
+  @Mutation(() => User)
+  [CONTROLLERS_NAMES.deleteUserById](
+    @Args('userId', { type: () => ID }) userId: mongoID,
+  ) {
+    return this.userService.delete(userId);
+  }
 }

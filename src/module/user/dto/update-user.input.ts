@@ -1,10 +1,17 @@
-import { ID } from '@common';
+import { mongoID } from '@common';
 import { CreateUserInput } from './create-user.input';
-import { InputType, Field, Int, PartialType, ArgsType } from '@nestjs/graphql';
+import {
+  InputType,
+  Field,
+  Int,
+  PartialType,
+  ArgsType,
+  ID,
+} from '@nestjs/graphql';
 
 @InputType()
 @ArgsType()
 export class UpdateUserInput extends PartialType(CreateUserInput) {
-  @Field(() => String)
-  id: ID;
+  @Field(() => ID)
+  id: mongoID;
 }

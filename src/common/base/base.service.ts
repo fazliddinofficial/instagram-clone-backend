@@ -1,6 +1,6 @@
 import { HydratedDocument, Model, UpdateQuery } from 'mongoose';
 
-import { DataNotFoundException, ID } from '@common';
+import { DataNotFoundException, mongoID } from '@common';
 
 export abstract class BaseService<
   createDto,
@@ -12,7 +12,7 @@ export abstract class BaseService<
     return await this.model.create(dto);
   }
 
-  async update(id: ID, updateDto: updateDto): Promise<HydratedDocument<T>> {
+  async update(id: mongoID, updateDto: updateDto): Promise<HydratedDocument<T>> {
     const foundData = await this.model.findByIdAndUpdate(id, updateDto, {
       new: true,
     });
@@ -24,7 +24,7 @@ export abstract class BaseService<
     return foundData;
   }
 
-  async delete(id: ID): Promise<HydratedDocument<T>> {
+  async delete(id: mongoID): Promise<HydratedDocument<T>> {
     const foundData = await this.model.findByIdAndDelete(id);
 
     if (!foundData) {
@@ -34,7 +34,7 @@ export abstract class BaseService<
     return foundData;
   }
 
-  async getDocumentById(id: ID): Promise<HydratedDocument<T>> {
+  async getDocumentById(id: mongoID): Promise<HydratedDocument<T>> {
     const foundData = await this.model.findById(id);
 
     if (!foundData) {
