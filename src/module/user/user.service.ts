@@ -17,11 +17,11 @@ export class UserService {
     return `This action returns all user`;
   }
 
-  findOne(id: number) {
+  findOne(id: string) {
     return `This action returns a #${id} user`;
   }
 
-  update(id: number, updateUserInput: UpdateUserInput) {
+  update(id: string, updateUserInput: UpdateUserInput) {
     return `This action updates a #${id} user`;
   }
 
