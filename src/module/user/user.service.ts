@@ -16,7 +16,4 @@ export class UserService extends BaseService<
   constructor(@InjectModel(User.name) private userModel: Model<User>) {
     super(userModel);
   }
-  async create(createUserInput: CreateUserInput) {
-    return await this.userModel.create(createUserInput);
-  }
 }
