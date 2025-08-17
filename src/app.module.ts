@@ -21,7 +21,9 @@ import { AuthModule } from './module/auth/auth.module';
       autoSchemaFile: join(process.cwd(), 'schema.gql'),
       buildSchemaOptions: {
         dateScalarMode: 'timestamp',
+        numberScalarMode: 'integer',
       },
+      context: ({ req }) => ({ req }),
     }),
     UserModule,
     AuthModule,
