@@ -5,3 +5,9 @@ export class DataNotFoundException extends HttpException {
     super(message || 'Data not found!', HttpStatus.NOT_FOUND);
   }
 }
+
+export class UniquenessError extends HttpException {
+  constructor(value: string) {
+    super(`${value} is already exist!`, HttpStatus.BAD_REQUEST);
+  }
+}

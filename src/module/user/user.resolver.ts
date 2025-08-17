@@ -4,8 +4,7 @@ import { UserService } from './user.service';
 import { User } from './entities/user.entity';
 import { CreateUserInput } from './dto/create-user.input';
 import { UpdateUserInput } from './dto/update-user.input';
-import { CONTROLLERS_NAMES } from 'src/common/constants';
-import { mongoID } from '@common';
+import { CONTROLLERS_NAMES, mongoID } from '@common';
 
 @Resolver(() => User)
 export class UserResolver {

@@ -1,8 +1,10 @@
 import { ObjectType, Field } from '@nestjs/graphql';
 import { ModelDefinition, Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 
+import { USER_ROLES_ENUM } from '@common';
+
 @ObjectType()
-@Schema()
+@Schema({ timestamps: true, versionKey: false })
 export class User {
   @Field()
   _id: string;
@@ -46,6 +48,14 @@ export class User {
   @Field(() => [String], { nullable: true })
   @Prop({ type: [String] })
   followers: string[];
+
+  @Field(() => USER_ROLES_ENUM, { nullable: true })
+  @Prop({
+    type: String,
+    enum: Object.values(USER_ROLES_ENUM),
+    default: USER_ROLES_ENUM.user,
+  })
+  role: string;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);
