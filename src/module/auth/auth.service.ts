@@ -5,8 +5,9 @@ import { JwtService } from '@nestjs/jwt';
 
 import { User } from '../user/entities/user.entity';
 import { SignUpInput } from './dto/sign-up.input';
-import { UniquenessError } from '@common';
+import { DataNotFoundException, MessageError, UniquenessError } from '@common';
 import { BcryptClass } from 'src/common/lib/bcrypt';
+import { SignInInput } from './dto/sign-in.input';
 
 @Injectable()
 export class AuthService {
@@ -20,11 +21,11 @@ export class AuthService {
 
     const isNickUnique = await this.UserModel.findOne({ nickName });
 
-    if (!isEmailUnique) {
+    if (isEmailUnique) {
       throw new UniquenessError('Email');
     }
 
-    if (!isNickUnique) {
+    if (isNickUnique) {
       throw new UniquenessError('Nick name');
     }
 
@@ -41,6 +42,31 @@ export class AuthService {
       role: createdUser.role,
     });
 
-    return { createdUser, token };
+    return { user: createdUser, token };
+  }
+
+  async signIn({ nickName, password }: SignInInput) {
+    const foundUser = await this.UserModel.findOne({ nickName });
+
+    if (!foundUser) {
+      throw new DataNotFoundException();
+    }
+
+    const isPasswordCorrect = BcryptClass.compareHash(
+      password,
+      foundUser.password,
+    );
+
+    if (!isPasswordCorrect) {
+      throw new MessageError('Password is not correct');
+    }
+
+    const token = this.jwtService.sign({
+      email: foundUser.email,
+      userId: foundUser._id,
+      role: foundUser.role,
+    });
+
+    return { user: foundUser, token };
   }
 }

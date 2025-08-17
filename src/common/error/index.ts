@@ -11,3 +11,9 @@ export class UniquenessError extends HttpException {
     super(`${value} is already exist!`, HttpStatus.BAD_REQUEST);
   }
 }
+
+export class MessageError extends HttpException {
+  constructor(msg: string) {
+    super(msg, HttpStatus.BAD_REQUEST);
+  }
+}
