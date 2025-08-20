@@ -16,7 +16,12 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
 
-  async signUp({ email, fullName, nickName, password }: SignUpInput) {
+  async signUp({
+    email,
+    fullName,
+    nickName,
+    password,
+  }: SignUpInput): Promise<{ user: User; token: string }> {
     const isEmailUnique = await this.UserModel.findOne({ email });
 
     const isNickUnique = await this.UserModel.findOne({ nickName });
@@ -29,11 +34,13 @@ export class AuthService {
       throw new UniquenessError('Nick name');
     }
 
+    const hashedPassword = await BcryptClass.createHash(password);
+
     const createdUser = await this.UserModel.create({
       fullName,
       nickName,
       email,
-      password: BcryptClass.createHash(password),
+      password: hashedPassword,
     });
 
     const token = this.jwtService.sign({

@@ -20,6 +20,7 @@ import { GraphQLFormattedError } from 'graphql';
       sortSchema: true,
       plugins: [ApolloServerPluginLandingPageLocalDefault()],
       autoSchemaFile: join(process.cwd(), 'schema.gql'),
+
       formatError: (
         formattedError: GraphQLFormattedError,
         error: unknown,
@@ -27,12 +28,22 @@ import { GraphQLFormattedError } from 'graphql';
         const originalError: any = (formattedError.extensions as any)
           ?.originalError;
 
+        const message = Array.isArray(originalError?.message)
+          ? originalError.message[0]
+          : originalError?.message ||
+            formattedError.message ||
+            'Internal server error!';
+
         return {
-          message: Array.isArray(originalError?.message)
-            ? originalError.message[0]
-            : originalError?.message,
+          message,
+          locations: formattedError.locations,
+          path: formattedError.path,
+          extensions: {
+            code: formattedError.extensions?.code || 'INTERNAL_SERVER_ERROR',
+          },
         };
       },
+
       buildSchemaOptions: {
         dateScalarMode: 'timestamp',
         numberScalarMode: 'integer',
