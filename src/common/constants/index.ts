@@ -6,6 +6,9 @@ export const CONTROLLERS_NAMES = {
   deleteUserById: 'deleteUserById',
   getUsersById: 'getUsersById',
   getAllUsers: 'getAllUsers',
+
+  signIn: 'signIn',
+  signUp: 'signUp',
 };
 
 export const saltRounds = 10;
