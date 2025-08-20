@@ -7,6 +7,7 @@ import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin
 import { join } from 'path';
 import { config } from './common';
 import { AuthModule } from './module/auth/auth.module';
+import { GraphQLFormattedError } from 'graphql';
 
 @Module({
   imports: [
@@ -19,6 +20,19 @@ import { AuthModule } from './module/auth/auth.module';
       sortSchema: true,
       plugins: [ApolloServerPluginLandingPageLocalDefault()],
       autoSchemaFile: join(process.cwd(), 'schema.gql'),
+      formatError: (
+        formattedError: GraphQLFormattedError,
+        error: unknown,
+      ): GraphQLFormattedError => {
+        const originalError: any = (formattedError.extensions as any)
+          ?.originalError;
+
+        return {
+          message: Array.isArray(originalError?.message)
+            ? originalError.message[0]
+            : originalError?.message,
+        };
+      },
       buildSchemaOptions: {
         dateScalarMode: 'timestamp',
         numberScalarMode: 'integer',
