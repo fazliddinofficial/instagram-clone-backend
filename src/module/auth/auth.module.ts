@@ -5,8 +5,9 @@ import { AuthService } from './auth.service';
 import { AuthResolver } from './auth.resolver';
 import { UserModel } from '../user/entities/user.entity';
 import { JwtModule } from '@nestjs/jwt';
-import { config } from '@common';
+import { config, GqlAuthGuard, RolesGuard } from '@common';
 import { JwtStrategy } from './jwt.strategy';
+import { APP_GUARD } from '@nestjs/core';
 
 @Module({
   imports: [
@@ -18,9 +19,11 @@ import { JwtStrategy } from './jwt.strategy';
     }),
   ],
   providers: [
-    AuthResolver, 
-    AuthService, 
-    JwtStrategy
+    AuthResolver,
+    AuthService,
+    JwtStrategy,
+    { provide: APP_GUARD, useClass: GqlAuthGuard },
+    { provide: APP_GUARD, useClass: RolesGuard },
   ],
 })
 export class AuthModule {}

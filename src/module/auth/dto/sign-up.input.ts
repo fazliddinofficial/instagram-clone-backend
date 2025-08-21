@@ -14,7 +14,6 @@ export class SignUpInput {
   email: string;
 
   @Field(() => String)
-  @IsStrongPassword({ minLength: PASSWORD_MIN_LENGTH })
   password: string;
 
   @Field(() => String)
