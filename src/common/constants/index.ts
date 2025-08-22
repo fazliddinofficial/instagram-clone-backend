@@ -1,14 +1,20 @@
 import { registerEnumType } from '@nestjs/graphql';
 
 export const CONTROLLERS_NAMES = {
+  signIn: 'signIn',
+  signUp: 'signUp',
+
   createUser: 'createUser',
   updateUserById: 'updateUserById',
   deleteUserById: 'deleteUserById',
   getUsersById: 'getUsersById',
   getAllUsers: 'getAllUsers',
 
-  signIn: 'signIn',
-  signUp: 'signUp',
+  createPost: 'createPost',
+  updatePostById: 'updatePostById',
+  deletePostById: 'deletePostById',
+  getPostsById: 'getPostsById',
+  getAllPosts: 'getAllPosts',
 };
 
 export const saltRounds = 10;

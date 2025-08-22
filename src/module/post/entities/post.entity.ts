@@ -8,11 +8,22 @@ import { User } from 'src/module/user/entities/user.entity';
 @Schema({ timestamps: true, versionKey: false })
 export class Post {
   @Field(() => ID)
-  @Prop({ type: Types.ObjectId, ref: User.name, required: true })
+  id: mongoID;
+
+  @Field(() => ID)
+  @Prop({
+    type: Types.ObjectId,
+    ref: User.name,
+    required: true,
+  })
   userId: mongoID;
 
-  @Field(() => ID, { nullable: true })
-  @Prop({ type: Types.ObjectId, ref: 'File' })
+  @Field(() => ID)
+  @Prop({
+    type: Types.ObjectId,
+    ref: 'File',
+    required: true,
+  })
   fileId: mongoID;
 
   @Field(() => String)
@@ -27,9 +38,9 @@ export class Post {
   @Prop({ type: Types.ObjectId, ref: 'Comment' })
   comments: mongoID[];
 
-  @Field(() => [String])
-  @Prop({ type: [String] })
-  hashtags: string[];
+  @Field(() => String)
+  @Prop({ type: String })
+  hashtags: string;
 }
 
 export const UserModel = SchemaFactory.createForClass(Post);
