@@ -14,5 +14,5 @@ export class CreatePostInput {
   description?: string;
 
   @Field(() => String)
-  hashtag: String;
+  hashtags: String;
 }

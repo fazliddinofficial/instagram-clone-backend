@@ -4,7 +4,7 @@ import { UpdatePostInput } from './dto/update-post.input';
 import { InjectModel } from '@nestjs/mongoose';
 import { Post } from './entities/post.entity';
 import { HydratedDocument, Model } from 'mongoose';
-import { BaseService } from '@common';
+import { BaseService, DataNotFoundException } from '@common';
 import { User } from '../user/entities/user.entity';
 
 @Injectable()
@@ -22,25 +22,30 @@ export class PostService extends BaseService<
 
   async createPost({
     fileId,
-    hashtag,
+    hashtags,
     userId,
     description,
   }: CreatePostInput): Promise<HydratedDocument<Post>> {
     const createdPost = await this.create({
       fileId,
-      hashtag,
+      hashtags,
       userId,
       description,
     });
 
     try {
-      await this.UserSchema.findByIdAndUpdate(
+      const foundUser = await this.UserSchema.findByIdAndUpdate(
         userId,
         {
           $push: { posts: createdPost._id },
         },
         { new: true },
       );
+
+      if (!foundUser) {
+        throw new DataNotFoundException('User not found!');
+      }
+
       return createdPost;
     } catch (error) {
       await this.PostSchema.findByIdAndDelete(createdPost._id);
