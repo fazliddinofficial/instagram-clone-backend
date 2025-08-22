@@ -1,4 +1,4 @@
-import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
+import { Args, ID, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { PostService } from './post.service';
 import { Post } from './entities/post.entity';
 import { CONTROLLERS_NAMES, mongoID } from '@common';
@@ -23,12 +23,16 @@ export class PostResolver {
   }
 
   @Mutation(() => Post)
-  [CONTROLLERS_NAMES.deletePostById](@Args('postId') postId: mongoID) {
+  [CONTROLLERS_NAMES.deletePostById](
+    @Args('postId', { type: () => ID }) postId: mongoID,
+  ) {
     return this.postService.delete(postId);
   }
 
   @Query(() => Post)
-  [CONTROLLERS_NAMES.getPostsById](@Args('postId') postId: mongoID) {
+  [CONTROLLERS_NAMES.getPostsById](
+    @Args('postId', { type: () => ID }) postId: mongoID,
+  ) {
     return this.postService.getDocumentById(postId);
   }
 

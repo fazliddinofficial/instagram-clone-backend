@@ -8,6 +8,12 @@ const {
   signIn,
   signUp,
   updateUserById,
+
+  createPost,
+  deletePostById,
+  getAllPosts,
+  getPostsById,
+  updatePostById,
 } = CONTROLLERS_NAMES;
 
 export const PERMISSIONS = {
@@ -17,6 +23,11 @@ export const PERMISSIONS = {
     getAllUsers,
     getUsersById,
     updateUserById,
+    createPost,
+    deletePostById,
+    getAllPosts,
+    getPostsById,
+    updatePostById,
   ]),
   admin: new Set([
     createUser,
@@ -24,6 +35,11 @@ export const PERMISSIONS = {
     getAllUsers,
     getUsersById,
     updateUserById,
+    createPost,
+    deletePostById,
+    getAllPosts,
+    getPostsById,
+    updatePostById,
   ]),
   superAdmin: new Set([
     createUser,
@@ -31,6 +47,11 @@ export const PERMISSIONS = {
     getAllUsers,
     getUsersById,
     updateUserById,
+    createPost,
+    deletePostById,
+    getAllPosts,
+    getPostsById,
+    updatePostById,
   ]),
   whiteList: new Set([signIn, signUp]),
 };
