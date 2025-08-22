@@ -9,6 +9,7 @@ import { config } from './common';
 import { AuthModule } from './module/auth/auth.module';
 import { GraphQLFormattedError } from 'graphql';
 import { loggerMiddleWare } from './common/middleware';
+import { PostModule } from './module/post/post.module';
 
 @Module({
   imports: [
@@ -54,6 +55,7 @@ import { loggerMiddleWare } from './common/middleware';
     }),
     UserModule,
     AuthModule,
+    PostModule,
   ],
   controllers: [],
   providers: [],
