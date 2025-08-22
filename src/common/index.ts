@@ -5,4 +5,4 @@ export * from './base/base.service';
 export * from './constants/index';
 export * from './constants/permissions';
 export * from './guards/auth-gql.guard';
-export * from './guards/permission';
+export * from './guards/permission.guard';

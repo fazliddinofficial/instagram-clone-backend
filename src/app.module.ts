@@ -8,6 +8,7 @@ import { join } from 'path';
 import { config } from './common';
 import { AuthModule } from './module/auth/auth.module';
 import { GraphQLFormattedError } from 'graphql';
+import { loggerMiddleWare } from './common/middleware';
 
 @Module({
   imports: [
@@ -39,7 +40,7 @@ import { GraphQLFormattedError } from 'graphql';
           locations: formattedError.locations,
           path: formattedError.path,
           extensions: {
-            code: formattedError.extensions?.code || 'INTERNAL_SERVER_ERROR',
+            code: formattedError.extensions?.code || 'ERROR',
           },
         };
       },
@@ -47,6 +48,7 @@ import { GraphQLFormattedError } from 'graphql';
       buildSchemaOptions: {
         dateScalarMode: 'timestamp',
         numberScalarMode: 'integer',
+        fieldMiddleware: [loggerMiddleWare],
       },
       context: ({ req }) => ({ req }),
     }),

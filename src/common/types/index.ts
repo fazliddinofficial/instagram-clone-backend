@@ -7,3 +7,20 @@ export interface IConfig {
 }
 
 export type mongoID = Types.ObjectId;
+
+export interface IToken {
+  email: string;
+  userId: string;
+  role: string;
+}
+
+export interface CustomContext extends Request {
+  user: {
+    args: IToken;
+  };
+}
+export interface IContext {
+  req: CustomContext;
+  res: Response;
+  payload?: any;
+}

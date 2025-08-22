@@ -16,8 +16,6 @@ export const PERMISSIONS = {
     deleteUserById,
     getAllUsers,
     getUsersById,
-    signIn,
-    signUp,
     updateUserById,
   ]),
   admin: new Set([
@@ -25,8 +23,6 @@ export const PERMISSIONS = {
     deleteUserById,
     getAllUsers,
     getUsersById,
-    signIn,
-    signUp,
     updateUserById,
   ]),
   superAdmin: new Set([
@@ -34,8 +30,6 @@ export const PERMISSIONS = {
     deleteUserById,
     getAllUsers,
     getUsersById,
-    signIn,
-    signUp,
     updateUserById,
   ]),
   whiteList: new Set([signIn, signUp]),

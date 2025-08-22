@@ -1,6 +1,7 @@
-import { config } from '@common';
 import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
+
+import { config, IToken } from '@common';
 
 export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
   constructor() {
@@ -9,7 +10,7 @@ export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
       secretOrKey: config.JWT_SECRET_KEY,
     });
   }
-  async validate(...args: any[]) {
+  async validate(args: IToken) {
     return { args };
   }
 }
