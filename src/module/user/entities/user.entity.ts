@@ -56,6 +56,10 @@ export class User {
     default: USER_ROLES_ENUM.user,
   })
   role: string;
+
+  @Field(() => Boolean, { nullable: true })
+  @Prop({ type: Boolean, default: false })
+  privacy: boolean;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);
