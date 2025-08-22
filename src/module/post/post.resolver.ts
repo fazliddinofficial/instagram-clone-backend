@@ -12,7 +12,7 @@ export class PostResolver {
   [CONTROLLERS_NAMES.createPost](
     @Args('createPostInput') createPostInput: CreatePostInput,
   ) {
-    return this.postService.create(createPostInput);
+    return this.postService.createPost(createPostInput);
   }
 
   @Mutation(() => Post)

@@ -43,9 +43,9 @@ export class Post {
   hashtags: string;
 }
 
-export const UserModel = SchemaFactory.createForClass(Post);
+export const PostSchema = SchemaFactory.createForClass(Post);
 
-export const UserModelDef: ModelDefinition = {
+export const PostModelDef: ModelDefinition = {
   name: Post.name,
-  schema: UserModel,
+  schema: PostSchema,
 };
