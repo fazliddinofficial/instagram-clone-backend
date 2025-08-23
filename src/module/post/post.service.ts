@@ -1,26 +1,55 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Inject, Injectable } from '@nestjs/common';
 import { CreatePostInput } from './dto/create-post.input';
 import { UpdatePostInput } from './dto/update-post.input';
+import { InjectModel } from '@nestjs/mongoose';
+import { Post } from './entities/post.entity';
+import { HydratedDocument, Model } from 'mongoose';
+import { BaseService, DataNotFoundException } from '@common';
+import { User } from '../user/entities/user.entity';
 
 @Injectable()
-export class PostService {
-  create(createPostInput: CreatePostInput) {
-    return 'This action adds a new post';
+export class PostService extends BaseService<
+  CreatePostInput,
+  UpdatePostInput,
+  Post
+> {
+  constructor(
+    @InjectModel(Post.name) private readonly PostSchema: Model<Post>,
+    @InjectModel(User.name) private readonly UserSchema: Model<User>,
+  ) {
+    super(PostSchema);
   }
 
-  findAll() {
-    return `This action returns all post`;
-  }
+  async createPost({
+    fileId,
+    hashtags,
+    userId,
+    description,
+  }: CreatePostInput): Promise<HydratedDocument<Post>> {
+    const createdPost = await this.create({
+      fileId,
+      hashtags,
+      userId,
+      description,
+    });
 
-  findOne(id: number) {
-    return `This action returns a #${id} post`;
-  }
+    try {
+      const foundUser = await this.UserSchema.findByIdAndUpdate(
+        userId,
+        {
+          $push: { posts: createdPost._id },
+        },
+        { new: true },
+      );
 
-  update(id: number, updatePostInput: UpdatePostInput) {
-    return `This action updates a #${id} post`;
-  }
+      if (!foundUser) {
+        throw new DataNotFoundException('User not found!');
+      }
 
-  remove(id: number) {
-    return `This action removes a #${id} post`;
+      return createdPost;
+    } catch (error) {
+      await this.PostSchema.findByIdAndDelete(createdPost._id);
+      throw new BadRequestException('Error while creating post!');
+    }
   }
 }

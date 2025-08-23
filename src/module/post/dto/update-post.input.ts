@@ -1,8 +1,9 @@
+import { mongoID } from '@common';
 import { CreatePostInput } from './create-post.input';
-import { InputType, Field, Int, PartialType } from '@nestjs/graphql';
+import { InputType, Field, PartialType, ID } from '@nestjs/graphql';
 
 @InputType()
 export class UpdatePostInput extends PartialType(CreatePostInput) {
-  @Field(() => Int)
-  id: number;
+  @Field(() => ID)
+  id: mongoID;
 }
