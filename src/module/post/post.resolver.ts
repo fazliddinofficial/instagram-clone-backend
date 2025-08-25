@@ -1,7 +1,8 @@
 import { Args, ID, Mutation, Query, Resolver } from '@nestjs/graphql';
+
+import { CONTROLLERS_NAMES, mongoID } from '@common';
 import { PostService } from './post.service';
 import { Post } from './entities/post.entity';
-import { CONTROLLERS_NAMES, mongoID } from '@common';
 import { CreatePostInput } from './dto/create-post.input';
 import { UpdatePostInput } from './dto/update-post.input';
 @Resolver(() => Post)

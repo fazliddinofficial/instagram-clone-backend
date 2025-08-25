@@ -41,6 +41,10 @@ export class Post {
   @Field(() => String)
   @Prop({ type: String })
   hashtags: string;
+
+  @Field(() => Number, { nullable: true })
+  @Prop({ type: Number, default: 0 })
+  viewed: number;
 }
 
 export const PostSchema = SchemaFactory.createForClass(Post);

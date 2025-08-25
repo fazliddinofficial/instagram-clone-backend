@@ -12,7 +12,10 @@ export abstract class BaseService<
     return await this.model.create(dto);
   }
 
-  async update(id: mongoID, updateDto: updateDto): Promise<HydratedDocument<T>> {
+  async update(
+    id: mongoID,
+    updateDto: updateDto,
+  ): Promise<HydratedDocument<T>> {
     const foundData = await this.model.findByIdAndUpdate(id, updateDto, {
       new: true,
     });
