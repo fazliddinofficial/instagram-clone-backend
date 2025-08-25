@@ -3,9 +3,9 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { JwtService } from '@nestjs/jwt';
 
+import { DataNotFoundException, MessageError, UniquenessError } from '@common';
 import { User } from '../user/entities/user.entity';
 import { SignUpInput } from './dto/sign-up.input';
-import { DataNotFoundException, MessageError, UniquenessError } from '@common';
 import { BcryptClass } from 'src/common/lib/bcrypt';
 import { SignInInput } from './dto/sign-in.input';
 
@@ -52,7 +52,10 @@ export class AuthService {
     return { user: createdUser, token };
   }
 
-  async signIn({ nickName, password }: SignInInput) {
+  async signIn({
+    nickName,
+    password,
+  }: SignInInput): Promise<{ user: User; token: string }> {
     const foundUser = await this.UserModel.findOne({ nickName });
 
     if (!foundUser) {
