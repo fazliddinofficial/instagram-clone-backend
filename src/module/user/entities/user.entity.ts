@@ -1,7 +1,8 @@
-import { ObjectType, Field } from '@nestjs/graphql';
+import { ObjectType, Field, ID } from '@nestjs/graphql';
 import { ModelDefinition, Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 
 import { USER_ROLES_ENUM } from '@common';
+import { Types } from 'mongoose';
 
 @ObjectType()
 @Schema({ timestamps: true, versionKey: false })
@@ -41,9 +42,9 @@ export class User {
   @Prop({ type: [String] })
   savedStories: string[];
 
-  @Field(() => [String], { nullable: true })
-  @Prop({ type: [String] })
-  posts: string[];
+  @Field(() => [ID], { nullable: true })
+  @Prop({ type: [Types.ObjectId], ref: 'Post' })
+  posts: Types.ObjectId[];
 
   @Field(() => [String], { nullable: true })
   @Prop({ type: [String] })

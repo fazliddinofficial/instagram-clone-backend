@@ -1,6 +1,6 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { HydratedDocument, Model } from 'mongoose';
+import { HydratedDocument, Model, Types } from 'mongoose';
 
 import { BaseService, DataNotFoundException, mongoID } from '@common';
 import { CreatePostInput } from './dto/create-post.input';
@@ -21,31 +21,27 @@ export class PostService extends BaseService<
     super(PostSchema);
   }
 
-  async createPost({
-    fileId,
-    hashtags,
-    userId,
-    description,
-  }: CreatePostInput): Promise<HydratedDocument<Post>> {
+  async createPost(
+    { fileId, hashtags, description }: CreatePostInput,
+    userId: mongoID,
+  ): Promise<HydratedDocument<Post>> {
     const createdPost = await this.create({
+      userId,
       fileId,
       hashtags,
-      userId,
       description,
     });
 
     try {
-      const foundUser = await this.UserSchema.findByIdAndUpdate(
-        userId,
-        {
-          $pull: { posts: createdPost._id },
-        },
-        { new: true },
-      );
+      const foundUser = await this.UserSchema.findById(userId);
 
       if (!foundUser) {
         throw new DataNotFoundException('User not found!');
       }
+
+      foundUser.posts.push(createdPost._id);
+
+      foundUser.save();
 
       return createdPost;
     } catch (error) {

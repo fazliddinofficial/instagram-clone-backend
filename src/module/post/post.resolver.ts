@@ -18,10 +18,13 @@ export class PostResolver {
   constructor(private readonly postService: PostService) {}
 
   @Mutation(() => Post)
+  @UseGuards(RolesGuard, GqlAuthGuard)
   [CONTROLLERS_NAMES.createPost](
     @Args('createPostInput') createPostInput: CreatePostInput,
+    @CurrentUser() req: any,
   ) {
-    return this.postService.createPost(createPostInput);
+    const user: IUser = req.user.args;
+    return this.postService.createPost(createPostInput, user.userId);
   }
 
   @Mutation(() => Post)

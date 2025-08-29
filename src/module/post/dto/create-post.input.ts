@@ -4,8 +4,8 @@ import { InputType, Int, Field, ID, ArgsType } from '@nestjs/graphql';
 @InputType()
 @ArgsType()
 export class CreatePostInput {
-  @Field(() => ID)
-  userId: mongoID;
+  @Field(() => ID, { nullable: true })
+  userId?: mongoID;
 
   @Field(() => ID)
   fileId: mongoID;
