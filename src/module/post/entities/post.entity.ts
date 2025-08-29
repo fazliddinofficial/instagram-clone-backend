@@ -26,7 +26,7 @@ export class Post {
   })
   fileId: mongoID;
 
-  @Field(() => String)
+  @Field(() => String, { nullable: true })
   @Prop({ type: String })
   description: string;
 

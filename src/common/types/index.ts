@@ -1,4 +1,5 @@
 import { Types } from 'mongoose';
+import { USER_ROLES_ENUM } from '../constants';
 
 export interface IConfig {
   JWT_SECRET_KEY: string;
@@ -23,4 +24,12 @@ export interface IContext {
   req: CustomContext;
   res: Response;
   payload?: any;
+}
+
+export interface IUser {
+  email: string;
+  userId: mongoID;
+  role: USER_ROLES_ENUM;
+  iat: number;
+  exp: number;
 }

@@ -1,10 +1,18 @@
 import { Args, ID, Mutation, Query, Resolver } from '@nestjs/graphql';
 
-import { CONTROLLERS_NAMES, mongoID } from '@common';
+import {
+  CONTROLLERS_NAMES,
+  GqlAuthGuard,
+  IUser,
+  mongoID,
+  RolesGuard,
+} from '@common';
 import { PostService } from './post.service';
 import { Post } from './entities/post.entity';
 import { CreatePostInput } from './dto/create-post.input';
 import { UpdatePostInput } from './dto/update-post.input';
+import { CurrentUser } from 'src/common/decorators/user.decorator';
+import { UseGuards } from '@nestjs/common';
 @Resolver(() => Post)
 export class PostResolver {
   constructor(private readonly postService: PostService) {}
@@ -20,14 +28,17 @@ export class PostResolver {
   [CONTROLLERS_NAMES.updatePostById](
     @Args('updatePostInput') updatePostInput: UpdatePostInput,
   ) {
-    return this.postService.update(updatePostInput.id, updatePostInput);
+    return this.postService.updatePostById(updatePostInput);
   }
 
   @Mutation(() => Post)
+  @UseGuards(RolesGuard, GqlAuthGuard)
   [CONTROLLERS_NAMES.deletePostById](
     @Args('postId', { type: () => ID }) postId: mongoID,
+    @CurrentUser() req: any,
   ) {
-    return this.postService.delete(postId);
+    const user: IUser = req.user.args;
+    return this.postService.deletePostById(postId, user.userId);
   }
 
   @Query(() => Post)
