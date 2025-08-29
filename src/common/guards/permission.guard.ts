@@ -28,13 +28,15 @@ export class RolesGuard implements CanActivate {
     const token = req.headers['authorization'].split(' ')[1];
     const secretKey = config.JWT_SECRET_KEY;
 
-    if (token) {
-      jwt.verify(token, secretKey, (err: any) => {
-        if (err) {
-          throw new BadRequestException('Invalid token');
-        }
-      });
+    if (!token) {
+      throw new MessageError('Token not found!');
     }
+    
+    jwt.verify(token, secretKey, (err: any) => {
+      if (err) {
+        throw new BadRequestException('Invalid token');
+      }
+    });
 
     const decodedToken = jwt.decode(token) || '';
 
