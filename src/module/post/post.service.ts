@@ -2,11 +2,17 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { HydratedDocument, Model, Types } from 'mongoose';
 
-import { BaseService, DataNotFoundException, mongoID } from '@common';
+import {
+  BaseService,
+  DataNotFoundException,
+  MessageError,
+  mongoID,
+} from '@common';
 import { CreatePostInput } from './dto/create-post.input';
 import { UpdatePostInput } from './dto/update-post.input';
 import { Post } from './entities/post.entity';
 import { User } from '../user/entities/user.entity';
+import { throws } from 'assert';
 
 @Injectable()
 export class PostService extends BaseService<
@@ -54,18 +60,26 @@ export class PostService extends BaseService<
     return await this.update(data.id, data);
   }
 
-  async deletePostById(id: mongoID, userId: mongoID): Promise<string> {
+  async deletePostById(
+    id: mongoID,
+    userId: mongoID,
+  ): Promise<HydratedDocument<Post>> {
     const deletedPost = await this.delete(id);
 
-    if (deletedPost) {
-      await this.UserSchema.findByIdAndUpdate(
-        userId,
-        { $pull: { posts: id } },
-        { new: true },
-      );
-      return 'Post deleted successfully';
+    if (!deletedPost) {
+      throw new BadRequestException('Post has not been deleted!');
     }
+    const foundUser = await this.UserSchema.findById(userId);
 
-    throw new BadRequestException('Post has not been deleted!');
+    const postIndex = foundUser?.posts.indexOf(deletedPost._id);
+
+    if (!postIndex) {
+      throw new MessageError('Post not found!');
+    }
+    foundUser?.posts.splice(postIndex, 1);
+
+    foundUser?.save();
+
+    return deletedPost;
   }
 }
