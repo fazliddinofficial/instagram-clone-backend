@@ -24,15 +24,15 @@ export class AuthService {
   }: SignUpInput): Promise<{ user: User; token: string }> {
     const isEmailUnique = await this.UserModel.findOne({ email });
 
-    // const isNickUnique = await this.UserModel.findOne({ nickName });
+    const isNickUnique = await this.UserModel.findOne({ nickName });
 
     if (isEmailUnique) {
       throw new UniquenessError('Email');
     }
 
-    // if (isNickUnique) {
-    //   throw new UniquenessError('Nick name');
-    // }
+    if (isNickUnique) {
+      throw new UniquenessError('Nick name');
+    }
 
     const hashedPassword = await BcryptClass.createHash(password);
 
