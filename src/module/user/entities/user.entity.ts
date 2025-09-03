@@ -23,7 +23,14 @@ export class User {
   password: string;
 
   @Field(() => String)
-  @Prop({ type: String })
+  @Prop({
+    type: String,
+    required: true,
+    unique: true,
+    index: true,
+    lowercase: true,
+    trim: true,
+  })
   nickName: string;
 
   @Field(() => String, { nullable: true })
