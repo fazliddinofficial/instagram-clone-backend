@@ -4,13 +4,14 @@ import { UserService } from './user.service';
 import { User } from './entities/user.entity';
 import { CreateUserInput } from './dto/create-user.input';
 import { UpdateUserInput } from './dto/update-user.input';
-import { CONTROLLERS_NAMES, mongoID } from '@common';
+import { CONTROLLERS_NAMES, mongoID, UseAllGuards } from '@common';
 
 @Resolver(() => User)
 export class UserResolver {
   constructor(private readonly userService: UserService) {}
 
   @Mutation(() => User)
+  @UseAllGuards()
   [CONTROLLERS_NAMES.createUser](
     @Args('createUserInput') createUserInput: CreateUserInput,
   ) {
@@ -18,11 +19,13 @@ export class UserResolver {
   }
 
   @Query(() => [User])
+  @UseAllGuards()
   [CONTROLLERS_NAMES.getAllUsers]() {
     return this.userService.getAllDocuments();
   }
 
   @Query(() => User)
+  @UseAllGuards()
   [CONTROLLERS_NAMES.getUsersById](
     @Args('id', { type: () => ID }) id: mongoID,
   ) {
@@ -30,6 +33,7 @@ export class UserResolver {
   }
 
   @Mutation(() => User)
+  @UseAllGuards()
   [CONTROLLERS_NAMES.updateUserById](
     @Args('updateUserInput') updateUserInput: UpdateUserInput,
   ) {
@@ -37,6 +41,7 @@ export class UserResolver {
   }
 
   @Mutation(() => User)
+  @UseAllGuards()
   [CONTROLLERS_NAMES.deleteUserById](
     @Args('userId', { type: () => ID }) userId: mongoID,
   ) {

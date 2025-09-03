@@ -3,6 +3,7 @@ import {
   CanActivate,
   ExecutionContext,
   Injectable,
+  UseGuards,
 } from '@nestjs/common';
 import { GqlExecutionContext } from '@nestjs/graphql';
 import { Observable } from 'rxjs';
@@ -11,6 +12,7 @@ import * as jwt from 'jsonwebtoken';
 import { PERMISSIONS } from '../constants/permissions';
 import { MessageError } from '../error';
 import { config } from '../config';
+import { GqlAuthGuard } from './auth-gql.guard';
 
 @Injectable()
 export class RolesGuard implements CanActivate {
@@ -31,7 +33,7 @@ export class RolesGuard implements CanActivate {
     if (!token) {
       throw new MessageError('Token not found!');
     }
-    
+
     jwt.verify(token, secretKey, (err: any) => {
       if (err) {
         throw new BadRequestException('Invalid token');
@@ -47,3 +49,5 @@ export class RolesGuard implements CanActivate {
     throw new MessageError('You have no permission for this operation!');
   }
 }
+
+export const UseAllGuards = () => UseGuards(GqlAuthGuard, RolesGuard);

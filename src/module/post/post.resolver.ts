@@ -6,6 +6,7 @@ import {
   IUser,
   mongoID,
   RolesGuard,
+  UseAllGuards,
 } from '@common';
 import { PostService } from './post.service';
 import { Post } from './entities/post.entity';
@@ -18,7 +19,7 @@ export class PostResolver {
   constructor(private readonly postService: PostService) {}
 
   @Mutation(() => Post)
-  @UseGuards(RolesGuard, GqlAuthGuard)
+  @UseAllGuards()
   [CONTROLLERS_NAMES.createPost](
     @Args('createPostInput') createPostInput: CreatePostInput,
     @CurrentUser() req: any,
@@ -27,6 +28,7 @@ export class PostResolver {
     return this.postService.createPost(createPostInput, user.userId);
   }
 
+  @UseAllGuards()
   @Mutation(() => Post)
   [CONTROLLERS_NAMES.updatePostById](
     @Args('updatePostInput') updatePostInput: UpdatePostInput,
@@ -35,7 +37,7 @@ export class PostResolver {
   }
 
   @Mutation(() => Post)
-  @UseGuards(RolesGuard, GqlAuthGuard)
+  @UseAllGuards()
   [CONTROLLERS_NAMES.deletePostById](
     @Args('postId', { type: () => ID }) postId: mongoID,
     @CurrentUser() req: any,
@@ -45,6 +47,7 @@ export class PostResolver {
   }
 
   @Query(() => Post)
+  @UseAllGuards()
   [CONTROLLERS_NAMES.getPostsById](
     @Args('postId', { type: () => ID }) postId: mongoID,
   ) {
@@ -52,6 +55,7 @@ export class PostResolver {
   }
 
   @Query(() => [Post])
+  @UseAllGuards()
   [CONTROLLERS_NAMES.getAllPosts]() {
     return this.postService.getAllDocuments();
   }
