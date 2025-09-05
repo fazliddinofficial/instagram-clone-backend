@@ -2,10 +2,8 @@ import { Args, ID, Mutation, Query, Resolver } from '@nestjs/graphql';
 
 import {
   CONTROLLERS_NAMES,
-  GqlAuthGuard,
   IUser,
   mongoID,
-  RolesGuard,
   UseAllGuards,
 } from '@common';
 import { PostService } from './post.service';
@@ -13,7 +11,6 @@ import { Post } from './entities/post.entity';
 import { CreatePostInput } from './dto/create-post.input';
 import { UpdatePostInput } from './dto/update-post.input';
 import { CurrentUser } from 'src/common/decorators/user.decorator';
-import { UseGuards } from '@nestjs/common';
 @Resolver(() => Post)
 export class PostResolver {
   constructor(private readonly postService: PostService) {}

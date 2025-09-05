@@ -30,11 +30,11 @@ export class PostService extends BaseService<
     { fileId, hashtags, description }: CreatePostInput,
     userId: mongoID,
   ): Promise<HydratedDocument<Post>> {
-    const createdPost = await this.create({
-      userId,
+    const createdPost = await this.PostSchema.create({
       fileId,
       hashtags,
       description,
+      userId,
     });
 
     try {
