@@ -37,6 +37,6 @@ export class Comment {
 export const CommentSchema = SchemaFactory.createForClass(Post);
 
 export const CommentModelDef: ModelDefinition = {
-  name: Post.name,
+  name: Comment.name,
   schema: CommentSchema,
 };
