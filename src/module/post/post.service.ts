@@ -70,14 +70,18 @@ export class PostService extends BaseService<
     }
     const foundUser = await this.UserSchema.findById(userId);
 
-    const postIndex = foundUser?.posts.indexOf(deletedPost._id);
+    if (!foundUser) {
+      throw new MessageError('User not found during deleting post!');
+    }
+
+    const postIndex = foundUser.posts.indexOf(deletedPost._id);
 
     if (!postIndex) {
       throw new MessageError('Post not found!');
     }
-    foundUser?.posts.splice(postIndex, 1);
+    foundUser.posts.splice(postIndex, 1);
 
-    foundUser?.save();
+    foundUser.save();
 
     return deletedPost;
   }
