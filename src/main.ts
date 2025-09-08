@@ -1,7 +1,8 @@
 import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
-import { config } from './common';
 import { ValidationPipe } from '@nestjs/common';
+
+import { config } from './common';
+import { AppModule } from './app.module';
 import { MongoExceptionFilter } from './common/error/duplicate';
 
 async function bootstrap() {
@@ -15,7 +16,7 @@ async function bootstrap() {
 
   await app.listen(config.PORT, () => {
     console.log(
-      `Jarvis: Server is up and running on ${process.env.PORT || 4000} port!`,
+      `Server is up and running on ${process.env.PORT || 4000} port!`,
     );
   });
 }

@@ -3,6 +3,7 @@ import {
   CanActivate,
   ExecutionContext,
   Injectable,
+  UnauthorizedException,
   UseGuards,
 } from '@nestjs/common';
 import { GqlExecutionContext } from '@nestjs/graphql';
@@ -36,7 +37,7 @@ export class RolesGuard implements CanActivate {
 
     jwt.verify(token, secretKey, (err: any) => {
       if (err) {
-        throw new BadRequestException('Invalid token');
+        throw new UnauthorizedException('Invalid token');
       }
     });
 
