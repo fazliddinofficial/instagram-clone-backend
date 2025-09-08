@@ -34,9 +34,9 @@ export class Comment {
   likes: number;
 }
 
-export const PostSchema = SchemaFactory.createForClass(Post);
+export const CommentSchema = SchemaFactory.createForClass(Post);
 
-export const PostModelDef: ModelDefinition = {
+export const CommentModelDef: ModelDefinition = {
   name: Post.name,
-  schema: PostSchema,
+  schema: CommentSchema,
 };
