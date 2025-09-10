@@ -15,6 +15,11 @@ export const CONTROLLERS_NAMES = {
   deletePostById: 'deletePostById',
   getPostsById: 'getPostsById',
   getAllPosts: 'getAllPosts',
+
+  createComment: 'createComment',
+  updateCommentById: 'updateCommentById',
+  deleteCommentById: 'deleteCommentById',
+  getAllComments: 'getAllComments',
 };
 
 export const saltRounds = 10;
