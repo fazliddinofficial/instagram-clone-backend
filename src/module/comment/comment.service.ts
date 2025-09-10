@@ -5,11 +5,13 @@ import { HydratedDocument, Model } from 'mongoose';
 import { CreateCommentInput } from './dto/create-comment.input';
 import { MessageError, mongoID } from '@common';
 import { UpdateCommentInput } from './dto/update-comment.input';
+import { Post } from '../post/entities/post.entity';
 
 @Injectable()
 export class CommentService {
   constructor(
     @InjectModel(Comment.name) private readonly CommentSchema: Model<Comment>,
+    @InjectModel(Post.name) private readonly PostSchema: Model<Post>,
   ) {}
 
   async createComment(
