@@ -5,6 +5,10 @@ export interface IConfig {
   JWT_SECRET_KEY: string;
   MONGO_DB_URL: string;
   PORT: number;
+  AWS_S3_REGION: string;
+  AWS_ACCESS_KEY: string;
+  AWS_PRIVATE_ACCESS_KEY: string;
+  AWS_BUCKET_NAME: string;
 }
 
 export type mongoID = Types.ObjectId;

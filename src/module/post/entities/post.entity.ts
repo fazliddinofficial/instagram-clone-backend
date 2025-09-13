@@ -18,13 +18,12 @@ export class Post {
   })
   userId: mongoID;
 
-  @Field(() => ID)
+  @Field(() => [String])
   @Prop({
-    type: Types.ObjectId,
-    ref: 'File',
+    type: [String],
     required: true,
   })
-  fileId: mongoID;
+  file: string[];
 
   @Field(() => String, { nullable: true })
   @Prop({ type: String })

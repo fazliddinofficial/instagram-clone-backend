@@ -11,6 +11,7 @@ import { GraphQLFormattedError } from 'graphql';
 import { loggerMiddleWare } from './common/middleware';
 import { PostModule } from './module/post/post.module';
 import { CommentModule } from './module/comment/comment.module';
+import { UploadModule } from './module/upload/upload.module';
 
 @Module({
   imports: [
@@ -23,7 +24,7 @@ import { CommentModule } from './module/comment/comment.module';
       sortSchema: true,
       plugins: [ApolloServerPluginLandingPageLocalDefault()],
       autoSchemaFile: join(process.cwd(), 'schema.gql'),
-
+      
       formatError: (
         formattedError: GraphQLFormattedError,
         error: unknown,
@@ -58,6 +59,7 @@ import { CommentModule } from './module/comment/comment.module';
     AuthModule,
     PostModule,
     CommentModule,
+    UploadModule,
   ],
   controllers: [],
   providers: [],
